@@ -44,7 +44,8 @@ function TeabotBotanPlugin(token, opts) {
     token: token
   };
   this._pluginOptions = {
-    manualMode: opts.manualMode || false
+    manualMode: opts.manualMode || false,
+    allowQuery: opts.allowQuery || false
   };
 }
 

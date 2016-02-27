@@ -23,6 +23,7 @@ TeaBot.defineCommand(function(dialog, message) {
 
 TeaBot.startPolling();
 ```
+By default analytics is disabled for `inline mode`, but you can enable it with `allowQuery` option.
 
 You can use `teabot-botan` in manual mode with `TeaBot.track()` method and `manualMode` option:
 ```js

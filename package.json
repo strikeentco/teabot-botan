@@ -1,7 +1,7 @@
 {
   "name": "teabot-botan",
   "author": "Alexey Bystrov <strikeentco@gmail.com>",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Botan.io analytics plugin for TeaBot",
   "engines": {
     "node": ">=0.12.0"

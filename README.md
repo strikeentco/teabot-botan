@@ -13,11 +13,11 @@ $ npm install teabot-botan --save
 You also should install [TeaBot](https://github.com/strikeentco/teabot).
 
 ```js
-var TeaBot = require('teabot')('TELEGRAM_BOT_TOKEN', 'TELEGRAM_BOT_NAME');
+const TeaBot = require('teabot')('TELEGRAM_BOT_TOKEN', 'TELEGRAM_BOT_NAME');
 
 TeaBot.use('analytics', require('teabot-botan')('BOTAN_TOKEN'));
 
-TeaBot.defineCommand(function(dialog, message) {
+TeaBot.defineCommand(function (dialog, message) {
   dialog.sendMessage('Echo: ' + message.text); // all message events will be sent directly to botan.io
 });
 
@@ -29,7 +29,7 @@ You can use `teabot-botan` in manual mode with `TeaBot.track()` method and `manu
 ```js
 TeaBot.use('analytics', require('teabot-botan')('BOTAN_TOKEN', {manualMode: true}));
 
-TeaBot.defineCommand(function(dialog, message) {
+TeaBot.defineCommand(function (dialog, message) {
   dialog.sendMessage('Echo: ' + message.text);
   TeaBot.track(dialog.userId, message, message.getCommand());
 });
@@ -40,13 +40,22 @@ Also you can use `shortenUrl` method, it will create shortened url. `shortenUrl`
 TeaBot.use('analytics', require('teabot-botan')('BOTAN_TOKEN'));
 
 TeaBot
-  .defineCommand('/shortenurl', function(dialog, message) {
-    TeaBot.getPlugin('analytics').shortenUrl(dialog.userId, message.text).then(function(url) {
-      dialog.sendMessage('Url:', url);
-    });
+  .defineCommand('/shortenurl', function (dialog, message) {
+    if (message.getArgument()) {
+      dialog.performAction('/shortenurl');
+    } else {
+      dialog.startAction('/shortenurl').sendMessage('Please, send me the link.');
+    }
   })
   .defineCommand(function(dialog, message) {
     dialog.sendMessage('Echo: ' + message.text);
+  });
+
+TeaBot
+  .defineAction('/shortenurl', function (dialog, message) {
+    TeaBot.getPlugin('analytics').shortenUrl(dialog.userId, message.getArgument()).then(function (url) {
+      dialog.endAction().sendMessage(url);
+    }).catch(TeaBot.error);
   });
 ```
 # License
